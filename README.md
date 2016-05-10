@@ -31,7 +31,7 @@ socket.on("event", event)
 ```
 
 ##  Example
-see [Example](examples/example.ino)
+see [Example](examples/BasicExample/BasicExample.ino)
 
 ## contribution
 Based on the great work of [Links2004 / arduinoWebSockets](https://github.com/Links2004/arduinoWebSockets).
