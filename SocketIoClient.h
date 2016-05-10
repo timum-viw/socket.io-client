@@ -6,9 +6,9 @@
 #include <WebSocketsClient.h>
 
 #define USE_SERIAL Serial
-#define USE_SSL
+
 #define PING_INTERVAL 10000 //TODO: use socket.io server response
-#ifdef USE_SSL
+#ifdef SOCKETIOCLIENT_USE_SSL
 	#define DEFAULT_PORT 443
 #else
 	#define DEFAULT_PORT 80

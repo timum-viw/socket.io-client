@@ -24,7 +24,7 @@ void webSocketEvent(SocketIoClient* client, WStype_t type, uint8_t * payload, si
 }
 
 void SocketIoClient::begin(const char* host, const int port, const char* url) {
-#ifdef USE_SSL
+#ifdef SOCKETIOCLIENT_USE_SSL
 	_webSocket.beginSSL(host, port, url); 
 #else
 	_webSocket.begin(host, port, url);
@@ -34,11 +34,11 @@ void SocketIoClient::begin(const char* host, const int port, const char* url) {
 }
 
 void SocketIoClient::loop() {
-		_webSocket.loop();
-		if(millis() - _lastPing > PING_INTERVAL) {
-			_webSocket.sendTXT("2");
-			_lastPing = millis();
-		}
+	_webSocket.loop();
+	if(millis() - _lastPing > PING_INTERVAL) {
+		_webSocket.sendTXT("2");
+		_lastPing = millis();
+	}
 }
 
 void SocketIoClient::on(const char* event, std::function<void (uint8_t * payload, size_t length)> func) {
