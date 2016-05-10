@@ -1,0 +1,19 @@
+{
+  "name": "SocketIoClient",
+  "keywords": "wifi, http, web, client, websocket, socket.io",
+  "description": "socket.io Client for ESP8266 on Arduino based on arduinoWebSockets",
+  "repository":
+  {
+    "type": "git",
+    "url": "https://github.com/timum-viw/socket.io-client.git"
+  },
+  "exclude": "tests",
+  "frameworks": "arduino",
+  "platforms": "*",
+  "authors":
+  {
+    "name": "Vincent Wyszynski",
+    "url": "https://github.com/timum-viw",
+    "maintainer": true
+  }
+}
