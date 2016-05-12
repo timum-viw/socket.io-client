@@ -19,10 +19,10 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 	String msg;
 	switch(type) {
 		case WStype_DISCONNECTED:
-			USE_SERIAL.printf("[WSc] Disconnected!\n");
+			SOCKETIOCLIENT_DEBUG("[SIoC] Disconnected!\n");
 			break;
 		case WStype_CONNECTED:
-			USE_SERIAL.printf("[WSc] Connected to url: %s\n",  payload);
+			SOCKETIOCLIENT_DEBUG("[SIoC] Connected to url: %s\n",  payload);
 			break;
 		case WStype_TEXT:
 			msg = String((char*)payload);
@@ -33,7 +33,7 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 			}
 			break;
 		case WStype_BIN:
-			USE_SERIAL.printf("[WSc] get binary length: %u\n", length);
+			SOCKETIOCLIENT_DEBUG("[SIoC] get binary length: %u\n", length);
 			hexdump(payload, length);
 		break;
 	}
@@ -75,6 +75,6 @@ void SocketIoClient::trigger(const char* event, const char * payload, size_t len
 	if(e != _events.end()) {
 		e->second(payload, length);
 	} else {
-		USE_SERIAL.printf("[WSc] event %s not found. %d events available\n", event, _events.size());
+		SOCKETIOCLIENT_DEBUG("[SIoC] event %s not found. %d events available\n", event, _events.size());
 	}
 }

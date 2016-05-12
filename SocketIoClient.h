@@ -5,9 +5,12 @@
 #include <map>
 #include <WebSocketsClient.h>
 
-#define USE_SERIAL Serial
+#define SOCKETIOCLIENT_DEBUG(...) Serial.printf(__VA_ARGS__);
+//#define SOCKETIOCLIENT_DEBUG(...)
 
 #define PING_INTERVAL 10000 //TODO: use socket.io server response
+
+//#define SOCKETIOCLIENT_USE_SSL
 #ifdef SOCKETIOCLIENT_USE_SSL
 	#define DEFAULT_PORT 443
 #else
