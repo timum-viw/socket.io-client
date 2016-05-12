@@ -3,6 +3,7 @@
 
 #include <Arduino.h>
 #include <map>
+#include <vector>
 #include <WebSocketsClient.h>
 
 #define SOCKETIOCLIENT_DEBUG(...) Serial.printf(__VA_ARGS__);
@@ -20,6 +21,7 @@
 
 class SocketIoClient {
 private:
+	std::vector<String> _packets;
 	WebSocketsClient _webSocket;
 	int _lastPing;
 	std::map<String, std::function<void (const char * payload, size_t length)>> _events;

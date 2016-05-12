@@ -51,6 +51,15 @@ void SocketIoClient::begin(const char* host, const int port, const char* url) {
 
 void SocketIoClient::loop() {
 	_webSocket.loop();
+	for(auto packet=_packets.begin(); packet != _packets.end();) {
+		if(_webSocket.sendTXT(*packet)) {
+			packet = _packets.erase(packet);
+			SOCKETIOCLIENT_DEBUG("[SIoC] packet \"%s\" emitted\n", msg.c_str());
+		} else {
+			++packet;
+		}
+	}
+
 	if(millis() - _lastPing > PING_INTERVAL) {
 		_webSocket.sendTXT("2");
 		_lastPing = millis();
@@ -67,7 +76,8 @@ void SocketIoClient::emit(const char* event, const char * payload) {
 	msg += "\",";
 	msg += payload;
 	msg += "]";
-	_webSocket.sendTXT(msg);
+	SOCKETIOCLIENT_DEBUG("[SIoC] add packet %s\n", msg.c_str());
+	_packets.push_back(msg);
 }
 
 void SocketIoClient::trigger(const char* event, const char * payload, size_t length) {
