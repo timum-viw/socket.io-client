@@ -10,6 +10,7 @@ compiler.c.elf.libs= ...
 ```
 (see http://stackoverflow.com/questions/33450946/esp8266-for-arduino-ide-xtensa-lx106-elf-gcc-and-stdmap-linking-error)
 
+### Add library
 Best thing is to use the Arduino Library Manager.
 * Go to Sketch > Include Library > Manage Libraries.
 * Install WebSockets by Markus Sattler
@@ -18,25 +19,47 @@ Best thing is to use the Arduino Library Manager.
 
 ## Functions
 
-### SocketIoClient#begin
+### SocketIoClient::begin(host[, port, path])
 open connection to socket.io server.
+##### Parameter
+```host``` url to socket.io server
+```port``` port to connect on. Defaults to 80 or 443 (SSL)
+```path``` path to connect to on server. Defaults to "/socket.io-client/?transport=websocket"
 ##### Example
 ```c
-socket.begin("my.socket-io.server")
+socket.begin("my.socket-io.server", 443, "/socket.io/?transport=websocket");
 ```
 
-### SocketIoClient#on
-binds a function to an event. Function signature must be
+### SocketIoClient::on(event, callback)
+binds a function to an event. 
+##### Parameter
+```event``` name of the event to bind to
+```callback``` callback function to call when the event is triggered
+Function signature must be
 ```c
-void (uint8_t * payload, size_t length)
+void (const char * payload, size_t length)
 ```
 ##### Example
 ```c
-void event(uint8_t * payload, size_t length) {
+void event(const char * payload, size_t length) {
 	//do stuff
 }
-socket.on("event", event)
+socket.on("event", event);
 ```
+
+### SocketIoClient::emit(event, payload)
+emits an event to the server.
+##### Parameter
+```event``` name of the event to be emitted
+```payload``` string of the payload to be sent with the event. Plain strings should be encapsulated in quotes.
+##### Example
+```c
+socket.emit("plainString", "\"this is a plain string\"");
+socket.emit("jsonObject", "{foo: \"bar\"}");
+```
+
+### SocketIoClient::loop()
+processes the websocket. Should be called in Arduino main loop.
 
 ##  Example
 see [Example](examples/BasicExample/BasicExample.ino)
