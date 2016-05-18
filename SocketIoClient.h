@@ -32,7 +32,7 @@ public:
 	void begin(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL);
 	void loop();
 	void on(const char* event, std::function<void (const char * payload, size_t length)>);
-	void emit(const char* event, const char * payload);
+	void emit(const char* event, const char * payload = NULL);
 };
 
 #endif

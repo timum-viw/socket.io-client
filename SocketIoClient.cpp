@@ -30,6 +30,8 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 				trigger(getEventName(msg).c_str(), getEventPayload(msg).c_str(), length);
 			} else if(msg.startsWith("2")) {
 				_webSocket.sendTXT("3");
+			} else if(msg.startsWith("40")) {
+				trigger("connect", NULL, 0);
 			}
 			break;
 		case WStype_BIN:
@@ -53,8 +55,8 @@ void SocketIoClient::loop() {
 	_webSocket.loop();
 	for(auto packet=_packets.begin(); packet != _packets.end();) {
 		if(_webSocket.sendTXT(*packet)) {
+			SOCKETIOCLIENT_DEBUG("[SIoC] packet \"%s\" emitted\n", packet->c_str());
 			packet = _packets.erase(packet);
-			SOCKETIOCLIENT_DEBUG("[SIoC] packet \"%s\" emitted\n", msg.c_str());
 		} else {
 			++packet;
 		}
@@ -73,8 +75,11 @@ void SocketIoClient::on(const char* event, std::function<void (const char * payl
 void SocketIoClient::emit(const char* event, const char * payload) {
 	String msg = String("42[\"");
 	msg += event;
-	msg += "\",";
-	msg += payload;
+	msg += "\"";
+	if(payload) {
+		msg += ",";
+		msg += payload;
+	}
 	msg += "]";
 	SOCKETIOCLIENT_DEBUG("[SIoC] add packet %s\n", msg.c_str());
 	_packets.push_back(msg);
@@ -83,6 +88,7 @@ void SocketIoClient::emit(const char* event, const char * payload) {
 void SocketIoClient::trigger(const char* event, const char * payload, size_t length) {
 	auto e = _events.find(event);
 	if(e != _events.end()) {
+		SOCKETIOCLIENT_DEBUG("[SIoC] trigger event %s\n", event);
 		e->second(payload, length);
 	} else {
 		SOCKETIOCLIENT_DEBUG("[SIoC] event %s not found. %d events available\n", event, _events.size());
