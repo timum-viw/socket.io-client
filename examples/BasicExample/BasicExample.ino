@@ -11,7 +11,7 @@
 ESP8266WiFiMulti WiFiMulti;
 SocketIoClient webSocket;
 
-void event(uint8_t* payload, size_t length) {
+void event(const char * payload, size_t length) {
   USE_SERIAL.printf("got message: %s\n", payload);
 }
 
