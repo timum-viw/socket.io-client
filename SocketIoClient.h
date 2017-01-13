@@ -17,7 +17,7 @@
 #else
 	#define DEFAULT_PORT 80
 #endif
-#define DEFAULT_URL "/socket.io-client/?transport=websocket"
+#define DEFAULT_URL "/socket.io/?transport=websocket"
 
 class SocketIoClient {
 private:
