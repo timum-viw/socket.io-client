@@ -3,7 +3,6 @@
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 
-#define SOCKETIOCLIENT_USE_SSL
 #include <SocketIoClient.h>
 
 #define USE_SERIAL Serial
