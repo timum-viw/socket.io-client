@@ -18,6 +18,8 @@
 	#define DEFAULT_PORT 80
 #endif
 #define DEFAULT_URL "/socket.io/?transport=websocket"
+#define DEFAULT_FINGERPRINT ""
+
 
 class SocketIoClient {
 private:
@@ -30,7 +32,7 @@ private:
 	void webSocketEvent(WStype_t type, uint8_t * payload, size_t length);
     void initialize();
 public:
-    void beginSSL(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL, const char* fingerprint);
+    void beginSSL(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL, const char* fingerprint = DEFAULT_FINGERPRINT);
 	void begin(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL);
 	void loop();
 	void on(const char* event, std::function<void (const char * payload, size_t length)>);
