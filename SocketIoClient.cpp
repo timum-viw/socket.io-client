@@ -20,6 +20,7 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 	switch(type) {
 		case WStype_DISCONNECTED:
 			SOCKETIOCLIENT_DEBUG("[SIoC] Disconnected!\n");
+            trigger("disconnected", NULL, 0);
 			break;
 		case WStype_CONNECTED:
 			SOCKETIOCLIENT_DEBUG("[SIoC] Connected to url: %s\n",  payload);
@@ -41,13 +42,18 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 	}
 }
 
+void SocketIoClient::beginSSL(const char* host, const int port, const char* url, const char* fingerprint) {
+	_webSocket.beginSSL(host, port, url, fingerprint); 
+    initialize();
+}
+
 void SocketIoClient::begin(const char* host, const int port, const char* url) {
-#ifdef SOCKETIOCLIENT_USE_SSL
-	_webSocket.beginSSL(host, port, url); 
-#else
 	_webSocket.begin(host, port, url);
-#endif
-	_webSocket.onEvent(std::bind(&SocketIoClient::webSocketEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+    initialize();
+}
+
+void SocketIoClient::initialize() {
+    _webSocket.onEvent(std::bind(&SocketIoClient::webSocketEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	_lastPing = millis();
 }
 
