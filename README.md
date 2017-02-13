@@ -30,6 +30,18 @@ open connection to socket.io server.
 socket.begin("my.socket-io.server", 443, "/socket.io/?transport=websocket");
 ```
 
+### SocketIoClient::beginSSL(host[, port, path, fingerprint])
+open SSL connection to socket.io server.
+##### Parameter
+```host``` url to socket.io server
+```port``` port to connect on. Defaults to 80 or 443 (SSL)
+```path``` path to connect to on server. Defaults to "/socket.io-client/?transport=websocket"
+```fingerprint``` the SSL fingerprint. Defaults to ""
+##### Example
+```c
+socket.begin("my.socket-io.server", 443, "/socket.io/?transport=websocket", "26 96 1C 2A 51 07 FD 15 80 96 93 AE F7 32 CE B9 0D 01 55 C4");
+```
+
 ### SocketIoClient::on(event, callback)
 binds a function to an event. 
 ##### Parameter
@@ -46,6 +58,9 @@ void event(const char * payload, size_t length) {
 }
 socket.on("event", event);
 ```
+##### Supported default events:
+* `connect` - when user is connected to server
+* `disconnected` - when user is disconnected from the server
 
 ### SocketIoClient::emit(event, payload)
 emits an event to the server.
