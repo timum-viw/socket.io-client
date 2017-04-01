@@ -111,3 +111,13 @@ void SocketIoClient::trigger(const char* event, const char * payload, size_t len
 		SOCKETIOCLIENT_DEBUG("[SIoC] event %s not found. %d events available\n", event, _events.size());
 	}
 }
+void SocketIoClient::callback(const char * payload) {
+	String msg = String("43") + id + "[";
+	if(payload) {
+		msg += payload;
+	}
+	msg += "]";
+	SOCKETIOCLIENT_DEBUG("[SIoC] callback packet %s\n", msg.c_str());
+	_packets.push_back(msg);
+	id="";
+}
