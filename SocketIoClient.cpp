@@ -21,6 +21,10 @@ const String SocketIoClient::getEventPayload(const String msg) {
 	return result;
 }
 
+void SocketIoClient::getId(const String msg) {
+	id=msg.substring(2, msg.indexOf("["));
+	SOCKETIOCLIENT_DEBUG("[SIoC] event id: %s\n",  id.c_str());
+}
 void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 	String msg;
 	switch(type) {
@@ -34,6 +38,7 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 		case WStype_TEXT:
 			msg = String((char*)payload);
 			if(msg.startsWith("42")) {
+				getId(msg);
 				trigger(getEventName(msg).c_str(), getEventPayload(msg).c_str(), length);
 			} else if(msg.startsWith("2")) {
 				_webSocket.sendTXT("3");

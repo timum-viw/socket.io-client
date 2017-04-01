@@ -32,7 +32,10 @@ private:
 	void webSocketEvent(WStype_t type, uint8_t * payload, size_t length);
     	void initialize();
 	const String getEventPayload(const String msg);
-	const String getEventName(const String msg);public:
+	const String getEventName(const String msg);
+	void getId(const String msg);
+	String id;
+public:
     void beginSSL(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL, const char* fingerprint = DEFAULT_FINGERPRINT);
 	void begin(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL);
 	void loop();
