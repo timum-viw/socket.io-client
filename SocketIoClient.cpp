@@ -1,7 +1,13 @@
 #include <SocketIoClient.h>
 
 const String getEventName(const String msg) {
-	return msg.substring(4, msg.indexOf("\"",4));
+	int firstQuote=msg.indexOf("\"");
+	int secondQuote=msg.indexOf("\"",firstQuote+1);
+	if (secondQuote>firstQuote){
+		return msg.substring(firstQuote+1, secondQuote);
+	} else{
+		return "UNKNOWN";
+	}
 }
 
 const String getEventPayload(const String msg) {
