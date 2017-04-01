@@ -1,6 +1,6 @@
 #include <SocketIoClient.h>
 
-const String getEventName(const String msg) {
+const String SocketIoClient::getEventName(const String msg) {
 	int firstQuote=msg.indexOf("\"");
 	int secondQuote=msg.indexOf("\"",firstQuote+1);
 	if (secondQuote>firstQuote){
@@ -10,7 +10,7 @@ const String getEventName(const String msg) {
 	}
 }
 
-const String getEventPayload(const String msg) {
+const String SocketIoClient::getEventPayload(const String msg) {
 	String result = msg.substring(msg.indexOf("\"",4)+2,msg.length()-1);
 	if(result.startsWith("\"")) {
 		result.remove(0,1);
