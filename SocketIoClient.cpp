@@ -11,7 +11,7 @@ const String SocketIoClient::getEventName(const String msg) {
 }
 
 const String SocketIoClient::getEventPayload(const String msg) {
-	String result = msg.substring(msg.indexOf("\"",4)+2,msg.length()-1);
+	String result = msg.substring(msg.indexOf(",")+1,msg.length()-1);
 	if(result.startsWith("\"")) {
 		result.remove(0,1);
 	}
