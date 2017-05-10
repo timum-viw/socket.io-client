@@ -66,11 +66,11 @@ socket.on("event", event);
 emits an event to the server.
 ##### Parameter
 ```event``` name of the event to be emitted
-```payload``` string of the payload to be sent with the event. Plain strings should be encapsulated in quotes.
+```payload``` string of the payload to be sent with the event. Plain strings and object property names should be encapsulated in quotes.
 ##### Example
 ```c
 socket.emit("plainString", "\"this is a plain string\"");
-socket.emit("jsonObject", "{foo: \"bar\"}");
+socket.emit("jsonObject", "{\"foo\":\"bar\"}");
 ```
 
 ### SocketIoClient::loop()
