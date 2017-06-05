@@ -60,7 +60,7 @@ socket.on("event", event);
 ```
 ##### Supported default events:
 * `connect` - when user is connected to server
-* `disconnected` - when user is disconnected from the server
+* `disconnect` - when user is disconnected from the server
 
 ### SocketIoClient::emit(event, payload)
 emits an event to the server.
@@ -78,7 +78,10 @@ processes the websocket. Should be called in Arduino main loop.
 
 ## Misc
 To go along with the socket.io-client implementation of socket.io the ```connect``` event is triggered upon successfully opened connection to server. To utilize simply add
-```socket.on("connect", handler)```
+```
+socket.on("connect", handler)
+```
+likewise ```disconnect``` event is triggered upon terminated connection.
 
 ##  Example
 see [Example](examples/BasicExample/BasicExample.ino)
