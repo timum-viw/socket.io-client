@@ -24,7 +24,7 @@ open connection to socket.io server.
 ##### Parameter
 ```host``` url to socket.io server
 ```port``` port to connect on. Defaults to 80 or 443 (SSL)
-```path``` path to connect to on server. Defaults to "/socket.io-client/?transport=websocket"
+```path``` path to connect to on server. Defaults to "/socket.io/?transport=websocket"
 ##### Example
 ```c
 socket.begin("my.socket-io.server", 443, "/socket.io/?transport=websocket");
@@ -35,7 +35,7 @@ open SSL connection to socket.io server.
 ##### Parameter
 ```host``` url to socket.io server
 ```port``` port to connect on. Defaults to 80 or 443 (SSL)
-```path``` path to connect to on server. Defaults to "/socket.io-client/?transport=websocket"
+```path``` path to connect to on server. Defaults to "/socket.io/?transport=websocket"
 ```fingerprint``` the SSL fingerprint. Defaults to ""
 ##### Example
 ```c
