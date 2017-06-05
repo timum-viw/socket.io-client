@@ -20,7 +20,6 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 	switch(type) {
 		case WStype_DISCONNECTED:
 			SOCKETIOCLIENT_DEBUG("[SIoC] Disconnected!\n");
-            trigger("disconnected", NULL, 0);
 			break;
 		case WStype_CONNECTED:
 			SOCKETIOCLIENT_DEBUG("[SIoC] Connected to url: %s\n",  payload);
@@ -33,6 +32,8 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 				_webSocket.sendTXT("3");
 			} else if(msg.startsWith("40")) {
 				trigger("connect", NULL, 0);
+			} else if(msg.startsWith("41")) {
+				trigger("disconnect", NULL, 0);
 			}
 			break;
 		case WStype_BIN:
