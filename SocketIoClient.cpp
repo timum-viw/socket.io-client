@@ -44,7 +44,7 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 }
 
 void SocketIoClient::beginSSL(const char* host, const int port, const char* url, const char* fingerprint) {
-	_webSocket.beginSSL(host, port, url, fingerprint); 
+	_webSocket.beginSSL(host, port, url, fingerprint);
     initialize();
 }
 
@@ -100,4 +100,10 @@ void SocketIoClient::trigger(const char* event, const char * payload, size_t len
 	} else {
 		SOCKETIOCLIENT_DEBUG("[SIoC] event %s not found. %d events available\n", event, _events.size());
 	}
+}
+
+void SocketIoClient::disconnect()
+{
+	_webSocket.disconnect();
+	trigger("disconnect", NULL, 0);
 }
