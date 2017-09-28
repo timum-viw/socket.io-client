@@ -42,6 +42,13 @@ open SSL connection to socket.io server.
 socket.begin("my.socket-io.server", 443, "/socket.io/?transport=websocket", "26 96 1C 2A 51 07 FD 15 80 96 93 AE F7 32 CE B9 0D 01 55 C4");
 ```
 
+### SocketIoClient::disconnect()
+disconnect from the server
+##### Example
+```c
+socket.disconnect();
+```
+
 ### SocketIoClient::on(event, callback)
 binds a function to an event. 
 ##### Parameter
