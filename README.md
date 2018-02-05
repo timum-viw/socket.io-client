@@ -39,7 +39,7 @@ open SSL connection to socket.io server.
 ```fingerprint``` the SSL fingerprint. Defaults to ""
 ##### Example
 ```c
-socket.begin("my.socket-io.server", 443, "/socket.io/?transport=websocket", "26 96 1C 2A 51 07 FD 15 80 96 93 AE F7 32 CE B9 0D 01 55 C4");
+socket.beginSSL("my.socket-io.server", 443, "/socket.io/?transport=websocket", "26 96 1C 2A 51 07 FD 15 80 96 93 AE F7 32 CE B9 0D 01 55 C4");
 ```
 
 ### SocketIoClient::disconnect()
