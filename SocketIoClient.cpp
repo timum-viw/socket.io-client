@@ -1,11 +1,17 @@
 #include <SocketIoClient.h>
 
 const String getEventName(const String msg) {
-	return msg.substring(4, msg.indexOf("\"",4));
+	int firstQuote = msg.indexOf("\"");
+	int secondQuote = msg.indexOf("\"", firstQuote+1);
+	if (secondQuote>firstQuote) {
+		return msg.substring(firstQuote+1, secondQuote);
+	} else {
+		return "UNKNOWN";
+	}
 }
 
 const String getEventPayload(const String msg) {
-	String result = msg.substring(msg.indexOf("\"",4)+2,msg.length()-1);
+	String result = msg.substring(msg.indexOf(",")+1,msg.length()-1);
 	if(result.startsWith("\"")) {
 		result.remove(0,1);
 	}
@@ -15,7 +21,15 @@ const String getEventPayload(const String msg) {
 	return result;
 }
 
-void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
+const String getId(const String msg) {
+	index = msg.indexOf("[");
+	if(msg.indexOf("[") == 2){
+		return "";
+	}
+	return msg.substring(2, msg.indexOf("["));
+}
+
+void SocketIoClient::webSocketEvent(WStype_t type, uint8_t* payload, size_t length) {
 	String msg;
 	switch(type) {
 		case WStype_DISCONNECTED:
@@ -27,7 +41,7 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 		case WStype_TEXT:
 			msg = String((char*)payload);
 			if(msg.startsWith("42")) {
-				trigger(getEventName(msg).c_str(), getEventPayload(msg).c_str(), length);
+				trigger(getEventName(msg).c_str(), getEventPayload(msg).c_str(), length, getId(msg).c_str());
 			} else if(msg.startsWith("2")) {
 				_webSocket.sendTXT("3");
 			} else if(msg.startsWith("40")) {
@@ -43,18 +57,18 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 	}
 }
 
-void SocketIoClient::beginSSL(const char* host, const int port, const char* url, const char* fingerprint) {
-	_webSocket.beginSSL(host, port, url, fingerprint);
-    initialize();
+void SocketIoClient::beginSSL(const char* host, const int port, const char* url) {
+	_webSocket.beginSocketIOSSL(host, port, url);
+	initialize();
 }
 
 void SocketIoClient::begin(const char* host, const int port, const char* url) {
-	_webSocket.begin(host, port, url);
-    initialize();
+	_webSocket.beginSocketIO(host, port, url);
+	initialize();
 }
 
 void SocketIoClient::initialize() {
-    _webSocket.onEvent(std::bind(&SocketIoClient::webSocketEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
+	_webSocket.onEvent(std::bind(&SocketIoClient::webSocketEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	_lastPing = millis();
 }
 
@@ -75,11 +89,11 @@ void SocketIoClient::loop() {
 	}
 }
 
-void SocketIoClient::on(const char* event, std::function<void (const char * payload, size_t length)> func) {
+void SocketIoClient::on(const char* event, std::function<void (const char* payload, size_t length)> func) {
 	_events[event] = func;
 }
 
-void SocketIoClient::emit(const char* event, const char * payload) {
+void SocketIoClient::emit(const char* event, const char* payload) {
 	String msg = String("42[\"");
 	msg += event;
 	msg += "\"";
@@ -92,18 +106,31 @@ void SocketIoClient::emit(const char* event, const char * payload) {
 	_packets.push_back(msg);
 }
 
-void SocketIoClient::trigger(const char* event, const char * payload, size_t length) {
+void SocketIoClient::trigger(const char* event, const char* payload, size_t length, const char* id) {
 	auto e = _events.find(event);
 	if(e != _events.end()) {
 		SOCKETIOCLIENT_DEBUG("[SIoC] trigger event %s\n", event);
-		e->second(payload, length);
+		e->second(payload, length, id);
 	} else {
 		SOCKETIOCLIENT_DEBUG("[SIoC] event %s not found. %d events available\n", event, _events.size());
 	}
 }
 
-void SocketIoClient::disconnect()
-{
+void SocketIoClient::callback(const char* id, const char* payload) {
+	if(id == "") {
+		return;
+	}
+
+	String msg = String("43") + id + "[";
+	if(payload) {
+		msg += payload;
+	}
+	msg += "]";
+	SOCKETIOCLIENT_DEBUG("[SIoC] callback packet %s\n", msg.c_str());
+	_packets.push_back(msg);
+}
+
+void SocketIoClient::disconnect() {
 	_webSocket.disconnect();
 	trigger("disconnect", NULL, 0);
 }
