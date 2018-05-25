@@ -92,8 +92,23 @@ void SocketIoClient::emit(const char* event, const char * payload) {
 	_packets.push_back(msg);
 }
 
-void SocketIoClient::trigger(const char* event, const char * payload, size_t length) {
+void SocketIoClient::remove(const char* event) {
 	auto e = _events.find(event);
+
+	if(e != _events.end()) {
+		_events.erase(_events.find(event));
+	} else {
+		SOCKETIOCLIENT_DEBUG("[SIoC] event %s not found, can not be removed", event);
+	}
+}
+
+void SocketIoClient::trigger(const char* event, const char * payload, size_t length) {
+	SOCKETIOCLIENT_DEBUG("Event: ");
+	SOCKETIOCLIENT_DEBUG(event);
+	SOCKETIOCLIENT_DEBUG("\n");
+
+	auto e = _events.find(event);
+
 	if(e != _events.end()) {
 		SOCKETIOCLIENT_DEBUG("[SIoC] trigger event %s\n", event);
 		e->second(payload, length);
