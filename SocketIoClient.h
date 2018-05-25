@@ -37,6 +37,7 @@ public:
 	void loop();
 	void on(const char* event, std::function<void (const char * payload, size_t length)>);
 	void emit(const char* event, const char * payload = NULL);
+	void remove(const char* event);
 	void disconnect();
 };
 
