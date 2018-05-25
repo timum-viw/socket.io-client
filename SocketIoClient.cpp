@@ -103,12 +103,7 @@ void SocketIoClient::remove(const char* event) {
 }
 
 void SocketIoClient::trigger(const char* event, const char * payload, size_t length) {
-	SOCKETIOCLIENT_DEBUG("Event: ");
-	SOCKETIOCLIENT_DEBUG(event);
-	SOCKETIOCLIENT_DEBUG("\n");
-
 	auto e = _events.find(event);
-
 	if(e != _events.end()) {
 		SOCKETIOCLIENT_DEBUG("[SIoC] trigger event %s\n", event);
 		e->second(payload, length);
