@@ -79,7 +79,14 @@ emits an event to the server.
 socket.emit("plainString", "\"this is a plain string\"");
 socket.emit("jsonObject", "{\"foo\":\"bar\"}");
 ```
-
+### SocketIoClient::remove(event)
+removes the previously added event.
+##### Parameter
+```event``` name of the event binded
+##### Example
+```c
+socket.remove("event");
+```
 ### SocketIoClient::loop()
 processes the websocket. Should be called in Arduino main loop.
 
