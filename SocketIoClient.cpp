@@ -107,3 +107,7 @@ void SocketIoClient::disconnect()
 	_webSocket.disconnect();
 	trigger("disconnect", NULL, 0);
 }
+
+void SocketIoClient::setAuthorization(const char * user, const char * password) {
+    _webSocket.setAuthorization(user, password);
+}

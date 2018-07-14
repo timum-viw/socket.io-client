@@ -83,6 +83,13 @@ socket.emit("jsonObject", "{\"foo\":\"bar\"}");
 ### SocketIoClient::loop()
 processes the websocket. Should be called in Arduino main loop.
 
+### SocketIoClient::setAuthorization(username, password)
+set HTTP Basic auth username and password.
+##### Example
+```c
+socket.setAuthorization("username", "password");
+```
+
 ## Misc
 To go along with the socket.io-client implementation of socket.io the ```connect``` event is triggered upon successfully opened connection to server. To utilize simply add
 ```

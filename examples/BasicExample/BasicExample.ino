@@ -37,6 +37,8 @@ void setup() {
 
     webSocket.on("event", event);
     webSocket.begin("my.socket-io.server");
+    // use HTTP Basic Authorization this is optional remove if not needed
+    webSocket.setAuthorization("username", "password");
 }
 
 void loop() {
