@@ -94,9 +94,8 @@ void SocketIoClient::emit(const char* event, const char * payload) {
 
 void SocketIoClient::remove(const char* event) {
 	auto e = _events.find(event);
-
 	if(e != _events.end()) {
-		_events.erase(_events.find(event));
+		_events.erase(e);
 	} else {
 		SOCKETIOCLIENT_DEBUG("[SIoC] event %s not found, can not be removed", event);
 	}
