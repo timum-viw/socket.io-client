@@ -15,5 +15,12 @@
     "name": "Vincent Wyszynski",
     "url": "https://github.com/timum-viw",
     "maintainer": true
-  }
+  },
+  "dependencies" : 
+	[
+		{
+			"name": "WebSockets",
+			"version": "2.1.2"
+		}
+	]  
 }
