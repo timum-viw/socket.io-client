@@ -15,6 +15,16 @@ const String getEventPayload(const String msg) {
 	return result;
 }
 
+static void hexdump(const uint32_t* src, size_t count) {
+    for (size_t i = 0; i < count; ++i) {
+        Serial.printf("%08x ", *src);
+        ++src;
+        if ((i + 1) % 4 == 0) {
+            Serial.printf("\n");
+        }
+    }
+}
+
 void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t length) {
 	String msg;
 	switch(type) {
@@ -38,7 +48,7 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 			break;
 		case WStype_BIN:
 			SOCKETIOCLIENT_DEBUG("[SIoC] get binary length: %u\n", length);
-			hexdump(payload, length);
+			hexdump((uint32_t*) payload, length);
 		break;
 	}
 }
