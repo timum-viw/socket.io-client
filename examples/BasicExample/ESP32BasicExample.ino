@@ -66,7 +66,7 @@ void LEDStateChange(const bool newState) {
 }
 
 void checkLEDState() {
-  if (LEDState) {
+  digitalWrite(LEDPin, LEDState);
     digitalWrite(LEDPin, LOW);
   } else {
     digitalWrite(LEDPin, HIGH);
