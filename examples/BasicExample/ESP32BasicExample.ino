@@ -67,10 +67,6 @@ void LEDStateChange(const bool newState) {
 
 void checkLEDState() {
   digitalWrite(LEDPin, LEDState);
-    digitalWrite(LEDPin, LOW);
-  } else {
-    digitalWrite(LEDPin, HIGH);
-  }
   const bool newState = digitalRead(buttonPin); // See if button is physically pushed
   if (!newState) {
     LEDStateChange(!LEDState);
@@ -112,11 +108,7 @@ void setup() {
 
   // Setup Connection
   if (useSSL) {
-    if (sslFingerprint) {
-      webSocket.beginSSL(host, port, path, sslFingerprint);
-    } else {
-      webSocket.beginSSL(host, port, path);
-    }
+    webSocket.beginSSL(host, port, path, sslFingerprint);
   } else {
     webSocket.begin(host, port, path);
   }
