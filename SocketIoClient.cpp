@@ -28,8 +28,8 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 			msg = String((char*)payload);
 			if(msg.startsWith("42")) {
 				trigger(getEventName(msg).c_str(), getEventPayload(msg).c_str(), length);
-			} else if(msg.startsWith("2")) {
-				_webSocket.sendTXT("3");
+			} else if(msg.startsWith("3")) {
+				_webSocket.sendTXT("2");
 			} else if(msg.startsWith("40")) {
 				trigger("connect", NULL, 0);
 			} else if(msg.startsWith("41")) {
