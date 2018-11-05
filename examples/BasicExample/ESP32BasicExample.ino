@@ -14,7 +14,7 @@ int port = 5000; // Socket.IO Port Address
 char path[] = "/socket.io/?transport=websocket"; // Socket.IO Base Path
 bool useSSL = false; // Use SSL Authentication
 const char * sslFingerprint = "";  // SSL Certificate Fingerprint
-bool useAuth = true; // use Socket.IO Authentication
+bool useAuth = false; // use Socket.IO Authentication
 const char * serverUsername = "socketIOUsername";
 const char * serverPassword = "socketIOPassword";
 
