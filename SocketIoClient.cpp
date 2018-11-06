@@ -1,3 +1,4 @@
+// https://github.com/timum-viw/socket.io-client
 #include <SocketIoClient.h>
 
 const String getEventName(const String msg) {
@@ -26,14 +27,22 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 			break;
 		case WStype_TEXT:
 			msg = String((char*)payload);
+
+			_ack = true;
+
 			if(msg.startsWith("42")) {
 				trigger(getEventName(msg).c_str(), getEventPayload(msg).c_str(), length);
-			} else if(msg.startsWith("2")) {
-				_webSocket.sendTXT("3");
+			} else if(msg.startsWith("3")) {
+				
+				// _webSocket.sendTXT("2");
+				_lastPing = millis();
+				
 			} else if(msg.startsWith("40")) {
+				_webSocket.connected = true;
 				trigger("connect", NULL, 0);
 			} else if(msg.startsWith("41")) {
-				trigger("disconnect", NULL, 0);
+				//trigger("disconnect", NULL, 0);
+				disconnect();
 			}
 			break;
 		case WStype_BIN:
@@ -56,6 +65,7 @@ void SocketIoClient::begin(const char* host, const int port, const char* url) {
 void SocketIoClient::initialize() {
     _webSocket.onEvent(std::bind(&SocketIoClient::webSocketEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	_lastPing = millis();
+	_ack = true;
 }
 
 void SocketIoClient::loop() {
@@ -69,7 +79,14 @@ void SocketIoClient::loop() {
 		}
 	}
 
-	if(millis() - _lastPing > PING_INTERVAL) {
+
+	if( _webSocket.connected && (millis() - _lastPing > PING_INTERVAL)) {
+		if (!_ack) {
+			SOCKETIOCLIENT_DEBUG("[SIoC] Connnection Lost by Ping\n");
+			disconnect();
+			return;
+		}
+		_ack = false;
 		_webSocket.sendTXT("2");
 		_lastPing = millis();
 	}
@@ -92,15 +109,6 @@ void SocketIoClient::emit(const char* event, const char * payload) {
 	_packets.push_back(msg);
 }
 
-void SocketIoClient::remove(const char* event) {
-	auto e = _events.find(event);
-	if(e != _events.end()) {
-		_events.erase(e);
-	} else {
-		SOCKETIOCLIENT_DEBUG("[SIoC] event %s not found, can not be removed", event);
-	}
-}
-
 void SocketIoClient::trigger(const char* event, const char * payload, size_t length) {
 	auto e = _events.find(event);
 	if(e != _events.end()) {
@@ -112,11 +120,9 @@ void SocketIoClient::trigger(const char* event, const char * payload, size_t len
 }
 
 void SocketIoClient::disconnect()
-{
-	_webSocket.disconnect();
+{	
+	_webSocket.connected =false; 
 	trigger("disconnect", NULL, 0);
+	_webSocket.disconnect();
 }
 
-void SocketIoClient::setAuthorization(const char * user, const char * password) {
-    _webSocket.setAuthorization(user, password);
-}

@@ -10,6 +10,7 @@
 //#define SOCKETIOCLIENT_DEBUG(...)
 
 #define PING_INTERVAL 10000 //TODO: use socket.io server response
+#define PONG_INTERVAL 12000 //TODO: use socket.io server response
 
 //#define SOCKETIOCLIENT_USE_SSL
 #ifdef SOCKETIOCLIENT_USE_SSL
@@ -26,6 +27,8 @@ private:
 	std::vector<String> _packets;
 	WebSocketsClient _webSocket;
 	int _lastPing;
+	bool _is_pong;
+	bool _ack;
 	std::map<String, std::function<void (const char * payload, size_t length)>> _events;
 
 	void trigger(const char* event, const char * payload, size_t length);
@@ -37,9 +40,7 @@ public:
 	void loop();
 	void on(const char* event, std::function<void (const char * payload, size_t length)>);
 	void emit(const char* event, const char * payload = NULL);
-	void remove(const char* event);
 	void disconnect();
-	void setAuthorization(const char * user, const char * password);
 };
 
 #endif
