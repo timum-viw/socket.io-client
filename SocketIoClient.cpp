@@ -37,7 +37,7 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 		case WStype_TEXT:
 			msg = String((char*)payload);
 			if(msg.startsWith("42")) {
-				trigger(getEventName(msg).c_str(), getEventPayload(msg).c_str(), strlen(getEventPayload(msg).c_str()));
+				trigger(getEventName(msg).c_str(), getEventPayload(msg).c_str(), getEventPayload(msg).length());
 			} else if(msg.startsWith("2")) {
 				_webSocket.sendTXT("3");
 			} else if(msg.startsWith("40")) {
