@@ -130,3 +130,9 @@ void SocketIoClient::disconnect()
 void SocketIoClient::setAuthorization(const char * user, const char * password) {
     _webSocket.setAuthorization(user, password);
 }
+
+
+void SocketIoClient::setExtraHeaders(const char * headers)
+{
+    _webSocket.setExtraHeaders(headers);
+}

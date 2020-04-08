@@ -43,6 +43,7 @@ public:
 	void remove(const char* event);
 	void disconnect();
 	void setAuthorization(const char * user, const char * password);
+	void setExtraHeaders(const char * headers);
 };
 
 #endif
