@@ -43,7 +43,7 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 			} else if(msg.startsWith("40")) {
 				trigger("connect", NULL, 0);
 			} else if(msg.startsWith("41")) {
-				trigger("disconnect", NULL, 0);
+				disconnect();
 			}
 			break;
 		case WStype_BIN:
