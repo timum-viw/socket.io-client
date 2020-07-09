@@ -1,5 +1,6 @@
 {
   "name": "SocketIoClient",
+  "version": "0.3",
   "keywords": "wifi, http, web, client, websocket, socket.io",
   "description": "socket.io Client for ESP8266 on Arduino based on arduinoWebSockets",
   "repository":
