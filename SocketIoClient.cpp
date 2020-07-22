@@ -109,7 +109,7 @@ void SocketIoClient::namespaceConnect(const char* name_space) {
 		msg += name_space;
 		msg += ",";
 		SOCKETIOCLIENT_DEBUG("[SIoC] connect to namespace %s\n", name_space);
-	_	packets.push_back(msg);
+	        _packets.push_back(msg);
 	}
 }
 
