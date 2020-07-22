@@ -53,14 +53,15 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 	}
 }
 
-void SocketIoClient::beginSSL(const char* host, const int port, const char* url, const char* fingerprint) {
+void SocketIoClient::beginSSL(const char* host, const int port, const char* url, const char* name_space, const char* fingerprint) {
 	_webSocket.beginSSL(host, port, url, fingerprint);
     initialize();
 }
 
-void SocketIoClient::begin(const char* host, const int port, const char* url) {
+void SocketIoClient::begin(const char* host, const int port, const char* url, const char* name_space) {
 	_webSocket.begin(host, port, url);
     initialize();
+	namespaceConnect(name_space);
 }
 
 void SocketIoClient::initialize() {
@@ -100,6 +101,16 @@ void SocketIoClient::emit(const char* event, const char * payload) {
 	msg += "]";
 	SOCKETIOCLIENT_DEBUG("[SIoC] add packet %s\n", msg.c_str());
 	_packets.push_back(msg);
+}
+
+void SocketIoClient::namespaceConnect(const char* name_space) {
+	if (name_space) {
+		String msg = String("40");
+		msg += name_space;
+		msg += ",";
+		SOCKETIOCLIENT_DEBUG("[SIoC] connect to namespace %s\n", name_space);
+	_	packets.push_back(msg);
+	}
 }
 
 void SocketIoClient::remove(const char* event) {

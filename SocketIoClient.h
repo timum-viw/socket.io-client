@@ -35,11 +35,12 @@ private:
 	void webSocketEvent(WStype_t type, uint8_t * payload, size_t length);
     void initialize();
 public:
-    void beginSSL(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL, const char* fingerprint = DEFAULT_FINGERPRINT);
-	void begin(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL);
+    void beginSSL(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL, const char* name_space = NULL, const char* fingerprint = DEFAULT_FINGERPRINT);
+	void begin(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL, const char* name_space = NULL);
 	void loop();
 	void on(const char* event, std::function<void (const char * payload, size_t length)>);
 	void emit(const char* event, const char * payload = NULL);
+	void namespaceConnect(const char* name_space);
 	void remove(const char* event);
 	void disconnect();
 	void setAuthorization(const char * user, const char * password);
