@@ -55,19 +55,19 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 
 void SocketIoClient::beginSSL(const char* host, const int port, const char* url, const char* name_space, const char* fingerprint) {
 	_webSocket.beginSSL(host, port, url, fingerprint);
-    initialize();
+    	initialize();
 }
 
 void SocketIoClient::begin(const char* host, const int port, const char* url, const char* name_space) {
 	_webSocket.begin(host, port, url);
-    initialize();
-	namespaceConnect(name_space);
-	_name_space = name_space;
+    	initialize();
 }
 
 void SocketIoClient::initialize() {
     _webSocket.onEvent(std::bind(&SocketIoClient::webSocketEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	_lastPing = millis();
+	namespaceConnect(name_space);
+	_name_space = name_space;
 }
 
 void SocketIoClient::loop() {
