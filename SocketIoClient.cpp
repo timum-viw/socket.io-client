@@ -1,11 +1,11 @@
 #include <SocketIoClient.h>
 
 const String getEventName(const String msg) {
-	return msg.substring(4, msg.indexOf("\"",4));
+	return msg.substring(msg.indexOf("\"") + 1, msg.indexOf("\"", msg.indexOf("\"") + 1));
 }
 
 const String getEventPayload(const String msg) {
-	String result = msg.substring(msg.indexOf("\"",4)+2,msg.length()-1);
+	String result = msg.substring(msg.indexOf("\",\"",4) + 2,msg.length() - 1);
 	if(result.startsWith("\"")) {
 		result.remove(0,1);
 	}
@@ -62,6 +62,7 @@ void SocketIoClient::begin(const char* host, const int port, const char* url, co
 	_webSocket.begin(host, port, url);
     initialize();
 	namespaceConnect(name_space);
+	_name_space = name_space;
 }
 
 void SocketIoClient::initialize() {
@@ -91,7 +92,11 @@ void SocketIoClient::on(const char* event, std::function<void (const char * payl
 }
 
 void SocketIoClient::emit(const char* event, const char * payload) {
-	String msg = String("42[\"");
+	String msg = String("42");
+	if (_name_space){
+		msg += _name_space + ",";
+	}
+	msg += "[\"";
 	msg += event;
 	msg += "\"";
 	if(payload) {
@@ -109,7 +114,7 @@ void SocketIoClient::namespaceConnect(const char* name_space) {
 		msg += name_space;
 		msg += ",";
 		SOCKETIOCLIENT_DEBUG("[SIoC] connect to namespace %s\n", name_space);
-	_	packets.push_back(msg);
+		_packets.push_back(msg);
 	}
 }
 
