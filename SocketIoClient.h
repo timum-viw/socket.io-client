@@ -29,7 +29,7 @@ private:
 	std::vector<String> _packets;
 	WebSocketsClient _webSocket;
 	int _lastPing;
-	String _name_space;
+	char* _name_space;
 	std::map<String, std::function<void (const char * payload, size_t length)>> _events;
 
 	void trigger(const char* event, const char * payload, size_t length);
