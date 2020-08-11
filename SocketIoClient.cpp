@@ -1,4 +1,4 @@
-#include <SocketIoClient.h>
+#include "SocketIoClient.h"
 
 const String getEventName(const String msg) {
 	return msg.substring(msg.indexOf("\"") + 1, msg.indexOf("\"", msg.indexOf("\"") + 1));
@@ -55,19 +55,19 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 
 void SocketIoClient::beginSSL(const char* host, const int port, const char* url, const char* name_space, const char* fingerprint) {
 	_webSocket.beginSSL(host, port, url, fingerprint);
+  namespaceConnect(name_space);
     	initialize();
 }
 
 void SocketIoClient::begin(const char* host, const int port, const char* url, const char* name_space) {
 	_webSocket.begin(host, port, url);
-	_name_space = name_space;
+  namespaceConnect(name_space);
     	initialize();
 }
 
 void SocketIoClient::initialize() {
     _webSocket.onEvent(std::bind(&SocketIoClient::webSocketEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	_lastPing = millis();
-	namespaceConnect(_name_space);
 }
 
 void SocketIoClient::loop() {
@@ -110,6 +110,7 @@ void SocketIoClient::emit(const char* event, const char * payload) {
 
 void SocketIoClient::namespaceConnect(const char* name_space) {
 	if (name_space) {
+    _name_space = *name_space;
 		String msg = String("40");
 		msg += name_space;
 		msg += ",";
