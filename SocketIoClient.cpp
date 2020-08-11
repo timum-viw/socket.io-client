@@ -60,14 +60,14 @@ void SocketIoClient::beginSSL(const char* host, const int port, const char* url,
 
 void SocketIoClient::begin(const char* host, const int port, const char* url, const char* name_space) {
 	_webSocket.begin(host, port, url);
+	_name_space = name_space;
     	initialize();
 }
 
 void SocketIoClient::initialize() {
     _webSocket.onEvent(std::bind(&SocketIoClient::webSocketEvent, this, std::placeholders::_1, std::placeholders::_2, std::placeholders::_3));
 	_lastPing = millis();
-	namespaceConnect(name_space);
-	_name_space = name_space;
+	namespaceConnect(_name_space);
 }
 
 void SocketIoClient::loop() {
