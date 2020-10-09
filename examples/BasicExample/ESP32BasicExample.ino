@@ -27,7 +27,7 @@ int buttonPin = 0;
 ////// ESP32 Socket.IO Client //////
 ///////////////////////////////////
 
-SocketIoClient webSocket;
+SocketIOclient webSocket; 
 WiFiClient client;
 
 bool LEDState = false;
