@@ -44,6 +44,7 @@ public:
 	void disconnect();
 	void setAuthorization(const char * user, const char * password);
 	void setExtraHeaders(const char * headers);
+	bool isConnected(void);
 };
 
 #endif
