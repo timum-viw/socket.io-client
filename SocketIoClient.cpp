@@ -136,3 +136,7 @@ void SocketIoClient::setExtraHeaders(const char * headers)
 {
     _webSocket.setExtraHeaders(headers);
 }
+
+bool SocketIoClient::isConnected() {
+	return _webSocket.isConnected();
+}
