@@ -35,7 +35,7 @@ private:
 	void webSocketEvent(WStype_t type, uint8_t * payload, size_t length);
     void initialize();
 public:
-    void beginSSL(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL, const char* fingerprint = DEFAULT_FINGERPRINT);
+    void beginSSL(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL, const uint8* fingerprint = DEFAULT_FINGERPRINT);
 	void begin(const char* host, const int port = DEFAULT_PORT, const char* url = DEFAULT_URL);
 	void loop();
 	void on(const char* event, std::function<void (const char * payload, size_t length)>);

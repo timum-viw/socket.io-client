@@ -53,7 +53,7 @@ void SocketIoClient::webSocketEvent(WStype_t type, uint8_t * payload, size_t len
 	}
 }
 
-void SocketIoClient::beginSSL(const char* host, const int port, const char* url, const char* fingerprint) {
+void SocketIoClient::beginSSL(const char* host, const int port, const char* url, const uint8* fingerprint) {
 	_webSocket.beginSSL(host, port, url, fingerprint);
     initialize();
 }
